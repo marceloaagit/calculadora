@@ -120,7 +120,13 @@ class CalcController {
     }
 
     getResult(){
-        return eval(this._operation.join(''));
+        try{
+            return eval(this._operation.join(''));
+        } catch(e) {
+            setTimeout(() => {
+                this.setError();
+            }, 1);
+        }
     }
 
     calc(){
@@ -345,15 +351,19 @@ class CalcController {
         return this._displayCalcEl.innerHTML;
     }
 
-    set displayCalc(valor) {
-        this._displayCalcEl.innerHTML = valor;
+    set displayCalc(value) {
+        if(value.toString().length > 10){
+            this.setError();
+            return false;
+        }
+        this._displayCalcEl.innerHTML = value;
     }
 
     get currentDate() {
         return this._currentDate = new Date();
     }
 
-    set currentDate(valor) {
-        this._currentDate = valor;
+    set currentDate(value) {
+        this._currentDate = value;
     }
 }
